@@ -5,6 +5,8 @@ public class Dirt
     public Rectangle rect;
     public Texture2D image;
 
+    // arrays över bilder för olika types
+    // är en array för den kommer alltid ha 3 saker i sig som inte ändras
     static Texture2D[] carrotStates = {
         Raylib.LoadTexture("carrot1.png"),
         Raylib.LoadTexture("carrot2.png"),
@@ -25,9 +27,7 @@ public class Dirt
 
     static Texture2D seeds = Raylib.LoadTexture("seeds.png");
     static Texture2D sprout = Raylib.LoadTexture("sprout.png");
-
     static Texture2D dirtimage = Raylib.LoadTexture("dirt.png");
-
 
     public int state = 0;
 
@@ -35,9 +35,9 @@ public class Dirt
 
     public string type;
 
-    // sort
-    // speed
-
+    // update
+    // När den körs ökas timer med framtime
+    // Om det inte är fullväxt resettas timern så att det går om tills den är fullväxt.
     public void Update()
     {
         timer += Raylib.GetFrameTime();
@@ -49,8 +49,8 @@ public class Dirt
             }
             timer = 0;
         }
-
-         if (state == 0)
+        // sedan bestäms det vilken bild den ska få beroende på state.
+        if (state == 0)
         {
             image = dirtimage;
         }
@@ -62,24 +62,25 @@ public class Dirt
         {
             image = sprout;
         }
+        // efter state 2 bestämmer den vilken array av bilder den ska följa beroende på type.
         else if (state > 2)
         {
-            if (type == "carrot")
+            if (type == "carrots")
             {
                 image = carrotStates[state - 3];
             }
-            if (type == "cabbage")
+            else if (type == "cabbage")
             {
                 image = cabbageStates[state - 3];
             }
-            if (type == "pumpkin")
+            else if (type == "pumpkin")
             {
                 image = pumpkinStates[state - 3];
             }
+        
         }
 
     }
-
 
     public Dirt(Texture2D i)
     {
